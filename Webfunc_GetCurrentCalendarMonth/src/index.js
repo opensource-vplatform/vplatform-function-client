@@ -3,12 +3,10 @@
  * 范例：GetCurrentCalendarMonth("JGCalendar1")
  * 返回值 "yyyyMM"
  */
-var main = function(param) {
-    var args = param.getArgs(),
-        argsLen = args ? args.length : 0,
-        expressionSrc = argsLen >= 1 ? args[0] : null;
+vds.import("vds.widget.*");
+var main = function(expressionSrc) {
 
-    var widget = widgetContext.get(expressionSrc, "widgetObj");
+    var widget = vds.widget.getProperty(expressionSrc, "widgetObj");
     if (widget)
         return widget.getCurrentMonth();
     return null;
