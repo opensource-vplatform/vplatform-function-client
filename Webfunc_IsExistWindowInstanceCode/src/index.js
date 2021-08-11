@@ -2,23 +2,20 @@
  *
  *
  */
-var main = function (param) {
+vds.import("vds.object.*","vds.exception.*","vds.window.*");
+var main = function (scopeId) {
     var FUNCNAME = "前台函数[IsExistWindowInstanceCode]-";
     //获取函数传入的参数
     var _result = true;
-    var args = param.getArgs();
-    if(!CheckParamNum(FUNCNAME,args,1)) return false;
-    var scopeId = args[0];//获取函数第一个参数
-    if(undefined == scopeId || scopeId == ""){
-        DWException(FUNCNAME+"第一个参数为空,请检查配置！");
+    //if(!CheckParamNum(FUNCNAME,args,1)) return false;
+    if(vds.object.isUndefOrNull(scopeId)){
+        throw vds.exception.newConfigException(FUNCNAME+"第一个参数为空,请检查配置！");
         return false;
     }
-    scopeManager.openScope(scopeId);
-    var scope = scopeManager.getWindowScope();
-    if(undefined == scope){
+   
+    if(vds.window.exist(scopeId)){
         _result = false;
     }
-    scopeManager.closeScope();
     return _result;
 }
 export{    main}

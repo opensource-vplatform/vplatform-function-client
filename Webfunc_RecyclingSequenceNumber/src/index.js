@@ -1,23 +1,36 @@
 /**
  *	流水号函数
  */
-vds.import("vds.object.*");
-var main = function(param) {
-    var args = param.getArgs(),
-        argsLen = args ? args.length : 0,
-        key = argsLen >= 1 ? args[0] : null,
-        serialNumber = argsLen >= 2 ? args[1] : null;
+vds.import("vds.object.*","vds.exception.*","vds.rpc.*");
+var main = function(key,serialNumber) {
 
     if (vds.object.isUndefOrNull(key) || vds.object.isUndefOrNull(serialNumber))
-        throw new Error("传入参数不能为空，请检查");
+    throw vds.exception.newConfigException("传入参数不能为空，请检查");
 
     try {
-        var scope = scopeManager.getWindowScope(),
-        windowCode = scope ? scope.getWindowCode() : "";
-        
-        return executeExpression(windowCode, key, serialNumber);
+        return executeExpression(key, serialNumber);
     } catch (e) {
-        throw e;
+        throw vds.exception.newConfigException(e);
     }
 }
 export{    main}
+
+
+var executeExpression = function(key, serialNumber) {
+    var expression = "RecyclingSequenceNumber(\"" + key + "\",\"" + serialNumber + "\")",
+        paramData = {"expression": expression},
+        result = null;
+
+        vds.rpc.callCommandSync("WebExecuteFormulaExpression",null,{
+        "isOperation":true,
+        "operationParam": paramData,
+        "success": function(rs) {
+            result = rs.data.result;
+        },
+        "error": function(e) {
+            throw vds.exception.newConfigException(e);
+        }
+    });
+
+    return result;
+}

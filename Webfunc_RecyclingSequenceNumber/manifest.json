@@ -22,10 +22,6 @@
             "desc": "需要废弃的流水号",
             "required": true
         }
-        ],
-        "output": {
-            "type": "void",
-            "desc": ""
-        }
+        ]
     }]
 }
