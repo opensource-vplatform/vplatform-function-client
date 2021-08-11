@@ -3,32 +3,35 @@
  *
  */
 //主入口(必须有)
-var main = function (param) {
-    //获取函数传入的参数
-    var args = param.getArgs();
-    //控件编码
-    var widgetCode = args[0];
-    //实体编码
-    var entityCode = args[1];
-    if (null == widgetCode || "" == widgetCode || null == entityCode || "" == entityCode) {
+vds.import("vds.object.*", "vds.widget.*", "vds.ds.*", "vds.window.*", "vds.environment.*", "vds.log.*")
+
+var formatHelperUtils, isAddStyle = false;
+var main = function (widgetCode, entityCode, title, value) {
+    if (vds.object.isUndefOrNull(widgetCode) || widgetCode == ""
+        || vds.object.isUndefOrNull(entityCode) || entityCode == "") {
         return;
     }
-    //标题字段
-    var title = args[2] ? args[2] : "title";
-    //值字段
-    var value = args[3] ? args[3] : "value";
+
+    // 标题字段
+    if (vds.object.isUndefOrNull(title)) {
+        title = "title";
+    }
+
+    // 值字段
+    if (vds.object.isUndefOrNull(value)) {
+        value = "value";
+    }
+
     //单位，屏蔽单位
     var unit = ""; //args[4] ? args[4] : "";
 
-    widget = widgetContext.get(widgetCode, "widgetObj");
+    widget = vds.widget.getProperty(widgetCode, "widgetObj");
     var types = ["JGDataGrid", "JGTreeView", "JGTreeGrid"];
     if (widget && types.indexOf(widget.type) != -1) {
         //添加样式
         //initConfig();
 
-        var datasource = datasourceManager.lookup({
-            "datasourceName": entityCode
-        });
+        var datasource = vds.ds.lookup(entityCode);
 
         if (null == datasource) {
             return;
@@ -59,16 +62,16 @@ var main = function (param) {
         }
         html.push('</div>')
         try {
-            widgetProperty.set(widgetCode, "ToolbarText", html.join(""));
+            vds.widget.execute(widgetCode, "ToolbarText", [html.join("")]);
         } catch (e) {
-            log.warn("[SetToolBarText]:设置" + widgetCode + "(" + widget.type + ")属性ToolbarText 值" + html.join("") + "出错。");
+            vds.log.warn("[SetToolBarText]:设置" + widgetCode + "(" + widget.type + ")属性ToolbarText 值" + html.join("") + "出错。");
         }
     }
 };
 
 var formatValue = function (value, formatField) {
     if (!isAddStyle) {
-        environment.parseCssStr(".box {white-space:  nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;}.box .item:first-child{  padding-left:0;}.box span.item em {font-style: normal;}.box span.item {line-height: 30px;padding-left: 32px;}");
+        vds.environment.parseCss(".box {white-space:  nowrap;overflow: hidden;text-overflow: ellipsis;font-size:14px;}.box .item:first-child{  padding-left:0;}.box span.item em {font-style: normal;}.box span.item {line-height: 30px;padding-left: 32px;}");
         isAddStyle = true;
     }
     if (!formatHelperUtils && window.isc && window.isc.JGFormatHelper) {
