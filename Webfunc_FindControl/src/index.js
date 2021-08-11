@@ -13,6 +13,8 @@
     FindControl("UserInfo","UserCode",-1) --获取界面上绑定UserInfo实体字段名UserCode的第一个控件，不区分控件类型，如果未指定下标，返回多个控件编码，逗号间隔
     FindControl("UserInfo","UserCode") --等效FindControl("UserInfo","UserCode") 
  */
+vds.import("vds.exception.*");
+vds.import("vds.widget.*");
 var main = function(entityName, fieldName, controlType, indexNum) {
     if(entityName == undefined || entityName === "") {
         var exception = vds.exception.newConfigException("实体名不能为空！");
@@ -52,10 +54,12 @@ var main = function(entityName, fieldName, controlType, indexNum) {
 //			});
 //		}
 
-    widgetCodes = widgetMapping.getWidgetCodesByFieldCode({
-        "datasourceName": entityName,
-        "fieldCode": fieldName
-    });
+    // widgetCodes = widgetMapping.getWidgetCodesByFieldCode({
+    //     "datasourceName": entityName,
+    //     "fieldCode": fieldName
+    // });
+
+    widgetCodes = vds.widget.getWidgetCodes(entityName, fieldName);
     
     //modify by zhangLazarus 2019-11-27 不指定控件类型
     widgetCodes.sort();	
@@ -90,4 +94,6 @@ var main = function(entityName, fieldName, controlType, indexNum) {
 
     return ControlCode;
 }
-export{    main}
+export{    
+    main
+}
