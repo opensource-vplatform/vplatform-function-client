@@ -8,19 +8,19 @@
     参数3：是否只读，必填（布尔类型）
  *
  */
-vds.import("vds.exception.*", "vds.object.*");
+vds.import("vds.exception.*", "vds.object.*", "vds.widget.*");
 var main = function (widgetCode, fieldStr, readOnly) {
     //获取函数传入的参数
 
-    if (vds.object.isUndefOrNull(widgetCode) || widgetCode=== "") {
+    if (vds.object.isUndefOrNull(widgetCode) || widgetCode === "") {
         var exception = vds.exception.newConfigException("列表控件名不能为空！");
         throw exception;
     }
-    if (vds.object.isUndefOrNull(fieldStr) || fieldStr=== "") {
+    if (vds.object.isUndefOrNull(fieldStr) || fieldStr === "") {
         var exception = vds.exception.newConfigException("需要设置的字段名不能为空！");
         throw exception;
     }
-    if (vds.object.isUndefOrNull(readOnly) || readOnly=== "") {
+    if (vds.object.isUndefOrNull(readOnly) || readOnly === "") {
         var exception = vds.exception.newConfigException("需要设置的只读值不能为空！");
         throw exception;
     }
