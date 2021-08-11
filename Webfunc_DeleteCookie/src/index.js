@@ -1,16 +1,11 @@
 /**
  * 删除cookie
  */
-vds.import("vds.object.*");
-var main = function(param) {
-    var args = param.getArgs(),
-        argsLen = args ? args.length : 0,
-        name = argsLen >= 1 ? args[0] : null;
-    var path = argsLen >= 2 && args[1] ? args[1] : "/"; // 可选。 cookie服务器路径
-    var domain = argsLen >= 3 && args[2]? args[2] : null; // 可选。cookie域名。
+vds.import("vds.cookie.*", "vds.object.*", "vds.exception.*");
+var main = function(name, path, domain) {
 
     if (vds.object.isUndefOrNull(name))
-        throw new Error("传入cookie名称为空，请检查");
+        throw vds.exception.newConfigException("传入cookie名称为空，请检查");
 
     try {
         var options = {
@@ -18,7 +13,7 @@ var main = function(param) {
             domain : domain
         };
         // 可选。cookie服务器路径
-        cookieUtil.vcookie({
+        vds.cookie.remove({
             "name": name,
             "value": null,
             "options" : options
