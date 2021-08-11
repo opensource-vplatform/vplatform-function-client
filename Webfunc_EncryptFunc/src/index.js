@@ -5,7 +5,7 @@
  *       algorithmKey：密钥。aes加密下必填
  * 输出：加密后的值
  */
-vds.import("vds.exception.*");
+vds.import("vds.exception.*","vds.string.*");
 var main = function (encryptValue, type, algorithmKey) {
     var result = "";
     
@@ -23,12 +23,14 @@ var main = function (encryptValue, type, algorithmKey) {
     }
     
     if(type.toLowerCase() == 'aes') {
-        result = math.encryptWithKey(encryptValue, type, algorithmKey);
+        result = vds.string.encrypt(encryptValue, type, algorithmKey);
     }else{
-        result = math.encrypt(encryptValue, type);
+        result = vds.string.encrypt(encryptValue, type);
         // 为什么要baseEncode？
         // result = math.baseEncode(result);
     }	
     return result;	
 }
-export{    main}
+export{    
+    main
+}
