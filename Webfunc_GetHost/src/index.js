@@ -1,4 +1,5 @@
-var main = function(param) {
+vds.import("vds.environment.*");
+var main = function() {
     var hostUrl = "";
     if (window.GlobalVariables) {
         hostUrl = GlobalVariables.getServerUrl();
@@ -7,7 +8,7 @@ var main = function(param) {
             hostUrl = hostUrl.substring(index+2);
         }
     }else{
-        hostUrl = window.location.host + environment.getContextPath();
+        hostUrl = window.location.host + vds.environment.getContextPath();
     }
     return hostUrl;
     

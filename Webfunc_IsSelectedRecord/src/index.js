@@ -10,36 +10,28 @@
  *  
  *  返回值为布尔类型
  */
-vds.import("vds.ds.*","vds.exception.*");
-var main = function (param) {
-    //获取函数传入的参数
-    var args = param.getArgs();
-    if(args.length!=3){
-        var exception = vds.exception.newConfigException("函数参数个数必须为3个!");
-        throw exception;
-    }
-    var entityCode = args[0];
-    var fieldCode = args[1];
-    var fieldValue = args[2];
-    if(!entityCode||"" == entityCode){
+vds.import("vds.ds.*","vds.exception.*","vds.object.*");
+var main = function (entityCode,fieldCode,fieldValue) {
+    
+    if(vds.object.isUndefOrNull(entityCode)){
         var exception = vds.exception.newConfigException("函数第一个参数,实体编码不能为空!");
         throw exception;
     } 
-    if(!fieldCode||"" == fieldCode){
+    if(vds.object.isUndefOrNull(fieldCode)){
         var exception = vds.exception.newConfigException("函数第二个参数,字段编码不能为空!");
         throw exception;
     }
-    if(!fieldValue||"" == fieldValue){
+    if(vds.object.isUndefOrNull(fieldValue)){
         var exception = vds.exception.newConfigException("函数第三个参数,字段值不能为空!");
         throw exception;
     }
     var datasource = vds.ds.lookup(entityCode);
-    if(!datasource){
+    if(vds.object.isUndefOrNull(datasource)){
         var exception = vds.exception.newConfigException("实体不存在，请重新配置!");
         throw exception;
     }
     //判断字段是否存在
-    var fields = datasource.getMetadata().fields;
+    var fields = datasource.getMetadata().getFields;
     var isField = false;
     for (var i = 0;i < fields.length;i++){
         var entityField = fields[i].code;
@@ -48,19 +40,19 @@ var main = function (param) {
             break;
         }
     }
-    if(!isField){
+    if(vds.object.isUndefOrNull(isField)){
         var exception = vds.exception.newConfigException("实体字段不存在，请重新配置!");
         throw exception;
     }
     //根据条件获取记录数
-    var querycondition = new criteCondition();
+    var querycondition = vds.ds.createCriteria();
     var criteriaS = querycondition.sw(fieldCode,fieldValue);
     var returnvalue = false;
-    var records = datasource.queryRecord({"criteria":criteriaS});
+    var records = datasource.queryRecord(criteriaS);
     records = records.toArray();
     for (var rIndex = 0; rIndex < records.length; rIndex++) {
         var selRecord = records[rIndex];
-        var isSelected = datasource.isSelectedRecord({"record":selRecord});
+        var isSelected = datasource.isSelectedRecord(selRecord);
         if(isSelected){
             returnvalue = true;
             break;

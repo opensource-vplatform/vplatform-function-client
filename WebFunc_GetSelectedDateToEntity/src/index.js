@@ -9,28 +9,47 @@
  *  
  *  返回值
  */
-var main = function(param) {
-    var args = param.getArgs();
-    if (args.length != 3)
-        exceptionHandler("函数 GetSelectedDateToEntity 参数个数必须为3个!");
+vds.import("vds.exception.*","vds.widget.*","vds.ds.*");
 
-    var widgetCode = args[0];
+
+var insertDateToEntity = function(datasource, fieldName, dates) {
+
+    if (!datasource || !dates || dates.length === 0 || !fieldName)
+        return;
+
+    var insertRecords = [];
+
+    for (var i = 0, len = dates.length; i < len; i++) {
+        var date = dates[i];
+        var emptyRecord = datasource.createRecord();
+        emptyRecord.set(fieldName, date);
+        insertRecords.push(emptyRecord);
+    }
+    
+    datasource.insertRecords(insertRecords,datasource.Position.BOTTOM);
+    return insertRecords;
+};
+
+var _getDataSource = function(dsName) {
+    // 仅支持前台实体
+    var datasource = vds.ds.lookup(dsName);
+    return datasource;
+};
+
+
+var main = function(widgetCode,entityCode,fieldName) {
+   
     if (!widgetCode)
-        exceptionHandler("函数 GetSelectedDateToEntity 第一个参数,控件Code不能为空!");
+    throw vds.exception.newConfigException("函数 GetSelectedDateToEntity 第一个参数,控件Code不能为空!");
 
-    var entityCode = args[1];
     if (!entityCode)
-        exceptionHandler("函数 GetSelectedDateToEntity 第二个参数,实体名称不能为空!");
+    throw vds.exception.newConfigException("函数 GetSelectedDateToEntity 第二个参数,实体名称不能为空!");
 
-    var fieldName = args[2];
     if (!fieldName)
-        exceptionHandler("函数 GetSelectedDateToEntity 第三个参数,实体字段名称不能为空!");
+    throw vds.exception.newConfigException("函数 GetSelectedDateToEntity 第三个参数,实体字段名称不能为空!");
 
     // 调用控件Action方法
-    var selectedDate = widgetAction.executeWidgetAction(widgetCode, "getSelectedDate", widgetCode);
-
-    var routeContext = param.getRouteContext();
-
+    var selectedDate = vds.widget.execute(widgetCode, "getSelectedDate", widgetCode);
     var ds = _getDataSource(entityCode);
     insertDateToEntity(ds, fieldName, selectedDate)
 

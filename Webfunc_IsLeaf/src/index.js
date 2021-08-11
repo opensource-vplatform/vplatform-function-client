@@ -2,7 +2,7 @@
  * 判断树的节点是否是叶子节点。
  * 
  */
-vds.import("vds.object.*", "vds.ds.*");
+vds.import("vds.object.*", "vds.ds.*","vds.exception.*","vds.string.*","vds.tree.*");
 var main = function(dataSourceName, nodeId, treeStructCfgStr) {
     // 示例：IsLeaf("datasourceName", "ID", "type:1,pidField:PID,treeCodeField:InnerCode,orderField:orderNo,isLeafField:isLeaf,busiFilterField:myBusiField")
     var treeStructCfgObj = parseCfgObj(treeStructCfgStr);
@@ -75,7 +75,7 @@ var main = function(dataSourceName, nodeId, treeStructCfgStr) {
 
     var selectedRecord = null;
     var datasource = vds.ds.lookup(dataSourceName);
-    if(null == datasource){
+    if(vds.object.isUndefOrNull(datasource)){
         throw vds.exception.newConfigException("实体【"+dataSourceName+"】不存在");
     }
     try {
@@ -85,22 +85,53 @@ var main = function(dataSourceName, nodeId, treeStructCfgStr) {
             selectedRecord = datasource.getRecordById(nodeId);
 
     } catch (e) {
-        throw new Error("isLeaf函数执行获取树数据时出错：" + e.message);
+        throw vds.exception.newConfigException("isLeaf函数执行获取树数据时出错：" + e.message);
     }
-    if (selectedRecord == null) {
+    if (vds.object.isUndefOrNull(selectedRecord)) {
         var msg = nodeId ? "树数据中不存在ID为" + nodeId + "的记录" : "树数据中当前行记录为空";
-        throw new Error("isLeaf函数执行出错:" + msg);
+        throw vds.exception.newConfigException("isLeaf函数执行出错:" + msg);
     }
 
     try {
-        var treeViewModel = treeManager.lookup({
-            "datasourceName": dataSourceName,
-            "treeStruct": treeStruct
-        });
+        var treeViewModel = vds.tree.lookup(dataSourceName,treeStruct);
         var children = treeViewModel.getNodeById(nodeId);
         return children.isLeaf();
     } catch (e) {
-        throw new Error("isLeaf函数执行出错：" + e.message);
+        throw vds.exception.newConfigException("isLeaf函数执行出错：" + e.message);
     }
 }
 export{    main}
+
+var getPropertyValue = function(obj, propertyName) {
+    if (vds.object.isUndefOrNull(obj)|| vds.object.isUndefOrNull(propertyName))
+        return null;
+    for (var propName in obj) {
+        if (propName.toLocaleLowerCase() == propertyName.toLocaleLowerCase())
+            return obj[propName];
+    }
+    return null;
+};
+
+var parseCfgObj = function(cfgStr) {
+    // "type:1,pidField:PID,treeCodeField:InnerCode,orderField:orderNo,isLeafField:isLeaf,busiFilterField:myBusiField"
+    if (vds.object.isUndefOrNull(cfgStr))
+    throw vds.exception.newConfigException("isLeaf函数的第3个参数(树配置信息)不能为空");
+    cfgStr = vds.string.trim(cfgStr);
+    var pairs = cfgStr.split(",");
+    if (pairs == null || pairs.length == 0)
+    throw vds.exception.newConfigException("isLeaf函数的第3个参数(树配置信息)格式错误:" + cfgStr);
+
+    var cfgObj = {};
+    for (var i = 0; i < pairs.length; i++) {
+        var t = vds.string.trim(pairs[i]);
+        if (vds.object.isUndefOrNull(t))
+        throw vds.exception.newConfigException("isLeaf函数的第3个参数(树配置信息)格式错误：" + cfgStr);
+        var tmps = t.split(":");
+        if (tmps == null || tmps.length == 0 || tmps.length > 2)
+        throw vds.exception.newConfigException("isLeaf函数的第3个参数(树配置信息)中的[" + t + "]格式错误：" + cfgStr);
+        var name = vds.string.trim(tmps[0]);
+        var value = (tmps.length == 2) ? tmps[1] : null;
+        cfgObj[name] = value;
+    }
+    return cfgObj;
+};

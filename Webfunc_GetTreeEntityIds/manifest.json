@@ -1,7 +1,7 @@
 {
     "groupId": "com.toone.v3.platform",
     "code": "Webfunc_GetTreeEntityIds",
-    "version":"3.3.0",
+    "version":"3.4.0",
     "plugins": [{
         "type": "function",
         "code": "GetTreeEntityIds",

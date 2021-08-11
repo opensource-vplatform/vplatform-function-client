@@ -9,29 +9,22 @@
     返回值为字符串类型
 
 */
+vds.import("vds.widget.*","vds.exception.*","vds.tree.*");
 var main = function (widgetCode, recordId, spitStr) {
     if(!widgetCode||"" == widgetCode){
         var exception = vds.exception.newConfigException("函数第一个参数,实体编码不能为空!");
         throw exception;
     } 
     //获取控件树形结构
-    var pidField = widgetContext.get(widgetCode, "PIDColumn");
-    var orderField = widgetContext.get(widgetCode, "OrderNoColumn");
-    var treeCodeField = widgetContext.get(widgetCode, "InnerCodeColumn");
-    var leftField = widgetContext.get(widgetCode, "LeftCodeColumn");
-    var rightField = widgetContext.get(widgetCode, "RightCodeColumn");
-    var	isLeafField = widgetContext.get(widgetCode, "LeafNode");
+    var pidField = vds.widget.getProperty(widgetCode, "PIDColumn");
+    var orderField = vds.widget.getProperty(widgetCode, "OrderNoColumn");
+    var treeCodeField = vds.widget.getProperty(widgetCode, "InnerCodeColumn");
+    var leftField = vds.widget.getProperty(widgetCode, "LeftCodeColumn");
+    var rightField = vds.widget.getProperty(widgetCode, "RightCodeColumn");
+    var	isLeafField = vds.widget.getProperty(widgetCode, "LeafNode");
     //获取实体名
-    var tableName = widgetMapping.getDatasourceNamesByWidgetCode({"widgetCode":widgetCode});
-    /*var treeStruct = {
-         "type": "1",
-         "pidField": "code",
-         "treeCodeField": "InnerCode",
-         "orderField": "OrderNo",
-         "isLeafField": "IsLeaf",
-         "leftField": "LeftCode",
-         "rightField": "RightCode"
-       };*/
+    var tableName = vds.widget.getDatasourceCodes(widgetCode);
+   
     var treeStruct = {
              "type": "1",
              "pidField": pidField,
@@ -42,8 +35,8 @@ var main = function (widgetCode, recordId, spitStr) {
              "rightField": rightField
            };
     //获取树形实体
-    var treeManager = sandbox.getService("vjs.framework.extension.platform.services.model.manager.tree.TreeManager");
-    var tree = treeManager.lookup({"datasourceName":tableName,"treeStruct":treeStruct});
+   
+    var tree = vds.tree.lookup(tableName,treeStruct);
     //获取节点id(若为空，则取当前记录)
     if( recordId == ''){
         //获取当前记录
@@ -61,3 +54,17 @@ var main = function (widgetCode, recordId, spitStr) {
     return ids.join(spitStr);
 }
 export{    main}
+
+
+var iterate = function(parent){
+    var ids = [];
+    var nodSet = parent.getChildren();
+    nodSet.iterate(function(node){
+        ids.push(node.getSysId());
+        var rs = iterate(node);
+        for(var i=0,l=rs.length;i<l;i++){
+            ids.push(rs[i]);
+        }
+    });
+    return ids;
+}

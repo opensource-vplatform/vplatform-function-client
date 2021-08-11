@@ -1,10 +1,14 @@
-var main = function(param) {
+vds.import("vds.object.*");
 
-    
-    var args = param.getArgs();
-    var key = args[0];
+
+
+
+var main = function(key,isDeCode) {
+
     //是否解码,默认解码
-    var isDeCode = false === args[1] ? false : true ;
+    if (vds.object.isUndefOrNull(isDeCode)){
+        isDeCode=false;
+    }
     var retStr = "";
     var url = window.document.location.href.toString();
     var u = url.split("?");

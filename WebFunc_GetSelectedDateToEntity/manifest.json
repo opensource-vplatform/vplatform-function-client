@@ -1,7 +1,7 @@
 {
     "groupId": "com.toone.v3.platform",
     "code": "WebFunc_GetSelectedDateToEntity",
-    "version":"3.4.0",
+    "version":"3.5.0",
     "plugins": [{
         "type": "function",
         "code": "GetSelectedDateToEntity",
@@ -27,10 +27,6 @@
             "desc": "",
             "required": true
         }
-        ],
-        "output": {
-            "type": "void",
-            "desc": ""
-        }
+        ]
     }]
 }
