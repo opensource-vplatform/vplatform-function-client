@@ -2,7 +2,7 @@
  * 函数，根据控件编码获取控件属性值 GetControlProperty("ControlCode","ControlPropertyCode")
  * 参数1：字符串，必填，单个控件编码 参数2：字符串，必填，例如Visible、ReadOnly、Enable、Lable、Value==
  */
-vds.import("vds.exception.*");
+vds.import("vds.exception.*", "vds.widget.*", "vds.log.*");
 var main = function(widgetCode, propertyName) {
     if (widgetCode == undefined || widgetCode === "") {
         var exception = vds.exception.newConfigException("控件编码不能为空！");
@@ -17,12 +17,13 @@ var main = function(widgetCode, propertyName) {
     propertyName = propertyName.trim();
 
     var widget;
-
-    widget = widgetContext.get(widgetCode, "widgetObj");
+    
+    widget = vds.widget.getProperty(widgetCode, "widgetObj");
+    
     if (widget) {
-        var widgetType = widgetContext.getType(widgetCode);
+        var widgetType = vds.widget.getType(widgetCode);
             
-        var PropertyValue = widgetProperty.get(widgetCode, propertyName);
+        var PropertyValue = vds.widget.execute(widgetCode, "get" + propertyName);
         if (PropertyValue == null){
             var ErrorMsg = "[webfunc_GetControlProperty]:获取"
                 + widgetCode + "(" + widgetType + ")未找到属性"

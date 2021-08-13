@@ -1,7 +1,7 @@
 {
     "groupId": "com.toone.v3.platform",
     "code": "Webfunc_ScrollToPosition",
-    "version": "3.2.0",
+    "version": "3.3.0",
     "plugins": [
         {
             "type": "function",

@@ -2,24 +2,34 @@
  *
  *
  */
-var main = function (param) {
-    //获取函数传入的参数
-    var args = param.getArgs();
-    var argsLen = args ? args.length : 0;
-    
-    if(argsLen!=2){
-         return "";
-    }
-    var fileid = args[0];
-    var FileInfoType = args[1];
-    
+vds.import("vds.rpc.*");
+var main = function (fileid, FileInfoType) {
+
     try {
-         var scope = scopeManager.getWindowScope();
-         var windowCode = scope ? scope.getWindowCode() : "";
-         return executeExpression(windowCode, fileid,FileInfoType);
+         return executeExpression(fileid,FileInfoType);
     } catch (e) {
          throw e;
     }
     
+}
+
+var executeExpression = function(fileid,FileInfoType) {
+     var expression = "GetFileInfo(\"" + fileid + "\",\"" + FileInfoType + "\")";
+     var result = null;
+
+     vds.rpc.callCommandSync("WebExecuteFormulaExpression", null, {
+          "isOperation": true,
+          "operationParam": {
+              "expression": expression
+          },
+          "success": function (rs) {
+              result = rs.data.result;
+          },
+          "fail": function(e) {
+              throw e;
+          }
+      });
+
+    return result;
 }
 export{    main}

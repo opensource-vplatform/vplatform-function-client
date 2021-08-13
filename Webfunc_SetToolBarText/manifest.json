@@ -1,16 +1,29 @@
 {
     "groupId": "com.toone.v3.platform",
     "code": "Webfunc_SetToolBarText",
-    "version":"3.5.0",
-    "plugins": [{
-        "type": "function",
-        "code": "SetToolBarText",
-        "name": "设置工具栏显示信息",
-        "desc": "设置工具栏显示信息，目前仅支持设置到列表、树表、树的工具栏\n参数1：控件编码\n参数2：实体编码\n参数3：标题字段编码，可选，默认为title\n参数4：值字段编码，可选，默认为value",
-        "example":"SetToolBarText(\"widgetCode\",\"entityCode\",\"title\",\"value\")",
-        "entry": "com.toone.v3.platform.function.client.SetToolBarText.main",
-        "defineUrl": "./dist/index.js",
-        "debugUrl":"./test/index.js",
-        "inputs": []
-    }]
+    "version": "3.5.0",
+    "plugins": [
+        {
+            "type": "function",
+            "code": "SetToolBarText",
+            "name": "设置工具栏显示信息",
+            "desc": "设置工具栏显示信息，目前仅支持设置到列表、树表、树的工具栏\n参数1：控件编码\n参数2：实体编码\n参数3：标题字段编码，可选，默认为title\n参数4：值字段编码，可选，默认为value",
+            "example": "SetToolBarText(\"widgetCode\",\"entityCode\",\"title\",\"value\")",
+            "entry": "com.toone.v3.platform.function.client.SetToolBarText.main",
+            "defineUrl": "./dist/index.js",
+            "debugUrl": "./test/index.js",
+            "inputs": [
+                {
+                    "type": "text",
+                    "desc": "控件编码",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "desc": "实体编码",
+                    "required": true
+                }
+            ]
+        }
+    ]
 }

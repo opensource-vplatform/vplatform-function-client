@@ -1,7 +1,8 @@
 /**
  * 前台生成UUI
  */
+vds.import("vds.string.*");
 var main = function(param) {
-    return uuid.generate();
+    return vds.string.uuid();
 }
 export{    main}

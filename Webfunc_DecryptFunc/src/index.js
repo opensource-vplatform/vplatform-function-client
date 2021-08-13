@@ -5,7 +5,7 @@
  *       algorithmKey：密钥。aes加密下必填
  * 输出：解密后的值
  */
-vds.import("vds.exception.*");
+vds.import("vds.exception.*","vds.string.*");
 var main = function (decryptValue, type, algorithmKey) {
     var result = "";
     if(decryptValue == null){
@@ -22,8 +22,10 @@ var main = function (decryptValue, type, algorithmKey) {
     }
     
     if(type.toLowerCase() == 'aes') {
-        result = math.decryptWithKey(decryptValue, "aes", algorithmKey);
+        result = vds.string.decryptAES(decryptValue, algorithmKey);
     }
     return result;
 }
-export{    main}
+export{    
+    main
+}

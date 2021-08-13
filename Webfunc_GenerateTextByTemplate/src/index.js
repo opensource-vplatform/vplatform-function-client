@@ -3,7 +3,7 @@
  * 
  * 代码示例1: GenerateTextByTemplate("你好${table1.name}") 代码示例2: GenerateTextByTemplate([Table1].[FieldData1])，[表名].[字段名]表达式的内容为模版字符串 参数--模版字符串 (字符串类型)； 返回值类型为字符串类型。
  */
-vds.import("vds.ds.*", "vds.exception.*");
+vds.import("vds.ds.*", "vds.exception.*", "vds.expression.*", "vds.string.*",);
 var main = function(templateStr) {
     if (!templateStr)
         return "";
@@ -90,7 +90,7 @@ var main = function(templateStr) {
     }
 
     // 用模板引擎进行替换值
-    var content = easyTemplateUtil.easyTemplate(templateStr, data);
+    var content = vds.string.template(templateStr, data);
 
     return content.toString();
 }
