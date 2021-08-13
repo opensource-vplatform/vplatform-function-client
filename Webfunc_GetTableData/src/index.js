@@ -38,6 +38,9 @@ var main = function(columnNames,dataSourceName,queryStr) {
         "operationParam": findParam,
         "success": function(rs) {
             result = rs.data.result;
+        },
+        "fail": function(e) {
+            throw e;
         }
     });
     return result;
