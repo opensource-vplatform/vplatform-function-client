@@ -1,5 +1,5 @@
 //规则主入口(必须有)
-vds.import("vds.ds.*", "vds.expression.*", "vds.exception.*", "vds.string.*", "vds.obj.*");
+vds.import("vds.ds.*", "vds.expression.*", "vds.exception.*", "vds.string.*", "vds.object.*");
 var main = function (entityCode, recordType, objFieldString) {
     var records = [];
     //获取数据源
