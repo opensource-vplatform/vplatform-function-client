@@ -9,9 +9,7 @@ var main = function(name, defaultVal) {
     if (vds.object.isUndefOrNull(defaultVal))
         throw vds.exception.newConfigException("传入cookie值的默认值为空，请检查");
 
-    var cookieVal = vds.cookie.get({
-        "name": name
-    });
+    var cookieVal = vds.cookie.get(name);
 
     if (vds.object.isUndefOrNull(cookieVal))
         return defaultVal;
