@@ -7,12 +7,7 @@
         "code": "FindControl",
         "name": "获取控件编码",
         "desc": "获取控件编码\n参数1：字符串，必填，实体名\n参数2：字符串，必填，字段名\n参数3：字符串，选填，控件类型，例如JGButton、JGTreeView.....\n参数4：整型，选填，下标从0开始，如果找到多个控件，返回第X个，需要容错处理，如果下标超过实际匹配的控件个数时，返回最后一个，小于0时，返回所有找到的控件且控件编码逗号分割  \n注意：如果没符合条件的控件，返回\"\"空字符串，如果找到多个符合条件的控件，指按照下标返回第N个（注意容错），如果未指定下标，返回多个控件编码，逗号间隔\n返回值为字符串类型。",
-        "example":"FindControl(\"UserInfo\",\"UserCode\",\"JGTextBox\",0) --获取界面上绑定UserInfo实体字段名UserCode第1个JGTextBox控件
-FindControl(\"UserInfo\",\"UserCode\",\"JGTextBox\",1) --获取界面上绑定UserInfo实体字段名UserCode的第2个JGTextBox控件，如果界面上仅找到1个符合条件的控件返回第1个控件编码
-FindControl(\"UserInfo\",\"UserCode\",\"JGTextBox\",99) --获取界面上绑定UserInfo实体字段名UserCode的JGTextBox控件，如果未找到返回空，如果符合条件控件但是小于99个，返回最后一个控件
-FindControl(\"UserInfo\",\"UserCode\",\"\",0) --获取界面上绑定UserInfo实体字段名UserCode的第1个控件
-FindControl(\"UserInfo\",\"UserCode\",\"\",-1) --获取界面上绑定UserInfo实体字段名UserCode的所有控件，不区分控件类型，返回多个控件编码，逗号间隔
-FindControl(\"UserInfo\",\"UserCode\") --等效FindControl(\"UserInfo\",\"UserCode\",\"\",-1)",
+        "example": "FindControl(\"UserInfo\",\"UserCode\",\"JGTextBox\",0) --获取界面上绑定UserInfo实体字段名UserCode第1个;  JGTextBox控件FindControl(\"UserInfo\",\"UserCode\",\"JGTextBox\",1) --获取界面上绑定UserInfo实体字段名UserCode的第2个JGTextBox控件，如果界面上仅找到1个符合条件的控件返回第1个控件编码;  FindControl(\"UserInfo\",\"UserCode\",\"JGTextBox\",99) --获取界面上绑定UserInfo实体字段名UserCode的JGTextBox控件，如果未找到返回空，如果符合条件控件但是小于99个，返回最后一个控件; FindControl(\"UserInfo\",\"UserCode\",\"\",0) --获取界面上绑定UserInfo实体字段名UserCode的第1个控件;  FindControl(\"UserInfo\",\"UserCode\",\"\",-1) --获取界面上绑定UserInfo实体字段名UserCode的所有控件，不区分控件类型，返回多个控件编码，逗号间隔FindControl(\"UserInfo\",\"UserCode\") --等效FindControl(\"UserInfo\",\"UserCode\",\"\",-1)",
         "entry": "com.toone.v3.platform.function.client.FindControl.main",
         "defineUrl": "./dist/index.js",
         "debugUrl":"./test/index.js",

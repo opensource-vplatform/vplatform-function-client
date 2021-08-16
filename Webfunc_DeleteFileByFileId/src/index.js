@@ -1,34 +1,37 @@
 /**
  * 
  */
-//规则主入口(必须有)
-var main = function (ruleContext) {
+vds.import("vds.object.*","vds.rpc.*");
+var main = function (fileid) {
 
-    var args = ruleContext.getArgs();
-    var argsLen = args ? args.length : 0;
-    var fileid = argsLen == 1 ? args[0] : null;
-    if (mathUtil.isEmpty(fileid)) {
+    if (vds.object.isUndefOrNull(fileid)) {
         throw new Error("参数不能为空，请检查");
     }
-    var expression = "WebFunc_DeleteFileByFileId(\"" + fileid + "\")";
 
-    var findParam = {
-        "expression": expression
-    }
-    var scope = scopeManager.getWindowScope();
-    var windowCode = scope ? scope.getWindowCode() : "";
-    var result;
-    operation.request({
-        "windowCode": windowCode,
-        "operation": "WebExecuteFormulaExpression",
-        "isAsync": false,
-        "params": findParam,
-        "success": function (rs) {
-            result = rs.data.result;
-        }
-    });
-    return result;
+    try {
+        return executeExpression(fileid);
+   } catch (e) {
+        throw e;
+   }
 };
+
+var executeExpression = function(fileid) {
+    var expression = "WebFunc_DeleteFileByFileId(\"" + fileid + "\")";
+    var result = null;
+
+    vds.rpc.callCommandSync("WebExecuteFormulaExpression", null, {
+         "isOperation": true,
+         "operationParam": {
+             "expression": expression
+         },
+         "success": function (rs) {
+             result = rs.data.result;
+         }
+     });
+
+   return result;
+}
+
 export {
     main
 }

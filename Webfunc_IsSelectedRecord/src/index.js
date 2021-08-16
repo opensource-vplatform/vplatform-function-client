@@ -40,7 +40,7 @@ var main = function (entityCode,fieldCode,fieldValue) {
             break;
         }
     }
-    if(vds.object.isUndefOrNull(isField)){
+    if(!isField){
         var exception = vds.exception.newConfigException("实体字段不存在，请重新配置!");
         throw exception;
     }

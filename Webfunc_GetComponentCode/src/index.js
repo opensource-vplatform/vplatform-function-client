@@ -2,9 +2,10 @@
  *
  *
  */
-var main = function (param) {
+vds.import("vds.window.*");
+var main = function () {
 
-    var scope = scopeManager.getWindowScope();
-    return scope ? scope.getComponentCode() : "";
+    var scope = vds.window.getCode();
+    return scope ? scope : "";
 }
 export{    main}

@@ -14,7 +14,7 @@
  * 
  *
  */
-vds.import("vds.exception.*");
+vds.import("vds.exception.*", "vds.widget.*");
 var main = function (widgetCode, fieldCode) {
     //图表构件编码
     if(!widgetCode||"" == widgetCode){
@@ -27,10 +27,10 @@ var main = function (widgetCode, fieldCode) {
         throw exception;
     }
     var relValue = "";
-    var widget = widgetContext.get(widgetCode, "widgetObj");
+    var widget = vds.widget.getProperty(widgetCode, "widgetObj");
     var barClickData = widget.clickBarData;
     if( barClickData && barClickData != null && barClickData != undefined){
-        for(barCode in barClickData ){
+        for(var barCode in barClickData ){
               if(barCode == fieldCode){
                   relValue = barClickData[barCode];
                   break;

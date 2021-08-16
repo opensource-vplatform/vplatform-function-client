@@ -8,7 +8,7 @@
     返回值为字符串类型
  *
  */
-vds.import("vds.exception.*");
+vds.import("vds.exception.*", "vds.widget.*");
 var main = function(entityName, indexNum) {
     if(entityName == undefined || entityName === "") {
         var exception = vds.exception.newConfigException("实体名不能为空！");
@@ -30,15 +30,13 @@ var main = function(entityName, indexNum) {
     var widgetCode = "";
     var widget;
 
-    widgetCodes = widgetMapping.getWidgetCodesByDatasourceName({
-        "datasourceName": entityName
-    });
+    widgetCodes = vds.widget.getWidgetCodes(entityName);
 
     if(widgetCodes.length > 0) {
         widgetCodes.sort();
         for(var i = 0; i < widgetCodes.length; i++) {
 
-            widget = widgetContext.get(widgetCodes[i], "widgetObj");
+            widget = vds.widget.getProperty(widgetCodes[i], "widgetObj");
             if((widget.type.toUpperCase() == "JGDataGrid".toUpperCase()) || (widget.type.toUpperCase() == "JGTreeGrid".toUpperCase())) {
                 gridlists.push(widgetCodes[i]);
             }

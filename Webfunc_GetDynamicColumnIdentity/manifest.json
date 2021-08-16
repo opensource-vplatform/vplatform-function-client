@@ -1,7 +1,7 @@
 {
     "groupId": "com.toone.v3.platform",
     "code": "Webfunc_GetDynamicColumnIdentity",
-    "version":"3.3.0",
+    "version":"3.5.0",
     "plugins": [{
         "type": "function",
         "code": "GetDynamicColumnIdentity",
@@ -24,7 +24,7 @@
         }
         ],
         "output": {
-            "type": "any",
+            "type": "text",
             "desc": ""
         }
     }]

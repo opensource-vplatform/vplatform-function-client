@@ -2,21 +2,38 @@
  *	流水号函数
  */
 vds.import("vds.object.*");
-var main = function(param) {
-    var args = param.getArgs(),
-        argsLen = args ? args.length : 0,
-        key = argsLen >= 1 ? args[0] : null;
+vds.import("vds.exception.*");
+vds.import("vds.rpc.*");
+var main = function (key) {
 
     if (vds.object.isUndefOrNull(key))
-        throw new Error("传入参数不能为空，请检查");
+        throw vds.exception.newConfigException("传入参数不能为空，请检查");
 
     try {
-        var scope = scopeManager.getWindowScope(),
-        windowCode = scope ? scope.getWindowCode() : "";
-        
-        return executeExpression(windowCode, key);
+        return executeExpression(key);
     } catch (e) {
         throw e;
     }
 }
-export{    main}
+
+var executeExpression = function (key) {
+    var expression = "GenerateSequenceNumberQuick(\"" + key + "\")",
+        result = null;
+
+    vds.rpc.callCommandSync("WebExecuteFormulaExpression", null, {
+        "isOperation": true,
+        "operationParam": {
+            "expression": expression
+        },
+        "success": function (rs) {
+            result = rs.data.result;
+        },
+        "fail": function(e) {
+            throw e;
+        }
+    });
+
+    return result;
+}
+
+export { main }
