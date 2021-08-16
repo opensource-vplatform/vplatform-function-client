@@ -4,7 +4,7 @@
     "version":"3.4.0",
     "plugins": [{
         "type": "function",
-        "code": "Null函数",
+        "code": "Null",
         "name": "产生空值",
         "desc": "产生空值。可在加载规则查询条件中使用，令查询条件失效。\n返回值为Null",
         "example":"Null()，返回Null",

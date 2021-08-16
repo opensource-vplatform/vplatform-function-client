@@ -31,16 +31,16 @@ var main = function (entityCode,fieldCode,fieldValue) {
         throw exception;
     }
     //判断字段是否存在
-    var fields = datasource.getMetadata().getFields;
+    var fields = datasource.getMetadata().getFields();
     var isField = false;
     for (var i = 0;i < fields.length;i++){
-        var entityField = fields[i].code;
+        var entityField = fields[i].getCode();
         if( entityField == fieldCode ){
             isField = true ;
             break;
         }
     }
-    if(vds.object.isUndefOrNull(isField)){
+    if(!isField){
         var exception = vds.exception.newConfigException("实体字段不存在，请重新配置!");
         throw exception;
     }
