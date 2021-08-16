@@ -13,11 +13,8 @@ var main = function(name, path, domain) {
             domain : domain
         };
         // 可选。cookie服务器路径
-        vds.cookie.remove({
-            "name": name,
-            "value": null,
-            "options" : options
-        });
+        vds.cookie.remove(name, null, options);
+       
         return true;
     } catch (e) {
         return false;
