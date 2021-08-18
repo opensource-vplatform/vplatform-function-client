@@ -25,7 +25,7 @@ var main = function (widgetCode, entityCode, title, value) {
     //单位，屏蔽单位
     var unit = ""; //args[4] ? args[4] : "";
 
-    widget = vds.widget.getProperty(widgetCode, "widgetObj");
+    var widget = vds.widget.getProperty(widgetCode, "widgetObj");
     var types = ["JGDataGrid", "JGTreeView", "JGTreeGrid"];
     if (widget && types.indexOf(widget.type) != -1) {
         //添加样式
