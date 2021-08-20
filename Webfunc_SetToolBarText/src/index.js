@@ -62,7 +62,7 @@ var main = function (widgetCode, entityCode, title, value) {
         }
         html.push('</div>')
         try {
-            vds.widget.execute(widgetCode, "ToolbarText", [html.join("")]);
+            vds.widget.execute(widgetCode, "setToolbarText", [html.join("")]);
         } catch (e) {
             vds.log.warn("[SetToolBarText]:设置" + widgetCode + "(" + widget.type + ")属性ToolbarText 值" + html.join("") + "出错。");
         }
