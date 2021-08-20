@@ -2,10 +2,10 @@
  *
  *
  */
-vds.import("vds.window.*");
+vds.import("vds.component.*");
 var main = function () {
 
-    var scope = vds.window.getCode();
-    return scope ? scope : "";
+    var compCode = vds.component.getCode();
+    return compCode ? compCode : "";
 }
 export{    main}

@@ -31,10 +31,10 @@ var main = function (entityCode,fieldCode,fieldValue) {
         throw exception;
     }
     //判断字段是否存在
-    var fields = datasource.getMetadata().getFields;
+    var fields = datasource.getMetadata().getFields();
     var isField = false;
     for (var i = 0;i < fields.length;i++){
-        var entityField = fields[i].code;
+        var entityField = fields[i].getCode();
         if( entityField == fieldCode ){
             isField = true ;
             break;

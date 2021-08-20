@@ -24,7 +24,8 @@
         },
         {
             "type": "text",
-            "desc": "密钥"
+            "desc": "密钥",
+            "required": true
         }
         ],
         "output": {
