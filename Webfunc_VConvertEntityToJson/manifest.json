@@ -15,15 +15,18 @@
             "inputs": [
                 {
                     "type": "text",
-                    "desc": "实体名称"
+                    "desc": "实体名称",
+                    "required":true
+                },
+                {
+                    "type": "number",
+                    "desc": "获取记录的方式0所有行/1选中行，默认为0",
+                    "required":true
                 },
                 {
                     "type": "text",
-                    "desc": "获取记录的方式0所有行/1选中行，默认为0"
-                },
-                {
-                    "type": "text",
-                    "desc": "需要变成对象的字段列表，逗号隔开"
+                    "desc": "需要变成对象的字段列表，逗号隔开",
+                    "required":false
                 }
             ],
             "output": {
