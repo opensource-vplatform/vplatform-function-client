@@ -6,12 +6,25 @@
  *  返回值为小数
  */
 vds.import("vds.object.*", "vds.math.*");
-var main = function(arg1,arg2) {
+/**
+ * 判断是否数字(非正则表达式方法)
+ */
+var judgeNumExt = function (arg) {
+    if (arg == null || typeof arg == "undefined" || arg === "") {
+        return false;
+    }
+
+    var result = (new Number(arg)).toString();
+    return result.toUpperCase() == "NAN" ? false : true;
+}
+var main = function (arg1, arg2) {
     if (vds.object.isUndefOrNull(arg1) || vds.object.isUndefOrNull(arg2))
         throw new Error("求两数最大值函数参数为空，请检查");
-    if (!vds.object.isNumber(arg1) || !vds.object.isNumber(arg2))
+    if (!judgeNumExt(arg1) || !judgeNumExt(arg2))
         throw new Error("求两数最大值函数参数不是数字，请检查");
 
     return vds.math.max(arg1, arg2);
 }
-export{    main}
+export {
+    main
+}
