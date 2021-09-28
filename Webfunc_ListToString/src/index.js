@@ -46,6 +46,7 @@ var main = function(dsName,columnName,separator,selectType,isNullFilter,isUnique
     var retStr = "";
     if (null != records && records.toArray().length > 0) {
         records = records.toArray();
+        sortDatas(records, datasource.getMetadata().getCode());
         var arr = new Array();
         for (var i = 0; i < records.length; i++) {
             var record = records[i];
@@ -90,6 +91,47 @@ var main = function(dsName,columnName,separator,selectType,isNullFilter,isUnique
         return null;
 
     return retStr;
+}
+/**
+ * 根据控件排序信息对数据进行排序
+*/
+function sortDatas(datas, dsName){
+    var widgetCodes = vds.widget.getWidgetCodes(dsName);
+    if(widgetCodes instanceof Array && widgetCodes.length > 0){
+        for(var i = 0,len = widgetCodes.length;i<len;i++){
+            var code = widgetCodes[i];
+            var storeType = vds.widget.getStoreType(code);
+            var widget = vds.widget.getProperty(code, "widgetObj");
+            if(storeType != vds.widget.StoreType.Set || !widget || typeof(widget.getSortedDatas) != "function"){
+                continue;
+            }
+            var sortInfos = widget.getSortedDatas();
+            if(sortInfos instanceof Array){
+                var map = {};
+                for(var j = 0; j < sortInfos.length; j++){
+                    var info = sortInfos[j];
+                    map[info.id] = info.index;
+                }
+                datas.sort(function(a, b){
+                    var id1 = a.get("id");
+                    var id2 = b.get("id");
+                    var i1 = map[id1];
+                    var i2 = map[id2];
+                    if(undefined == i1){
+                        if(undefined == i2){
+                            return (id1> id2 ? 1 : -1);
+                        }
+                        return 1;
+                    }else if(undefined == i2){
+                        return -1;
+                    }else{
+                        return (i1 > i2 ? 1 : -1)
+                    }
+                });
+                break;
+            }
+        }
+    }
 }
 function contains(arr, obj) {
     var i = arr.length;
