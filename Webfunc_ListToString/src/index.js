@@ -1,7 +1,7 @@
 /**
  *	将实体中某个字段值拼接成一个字符串
  */
-vds.import("vds.object.*", "vds.ds.*", "vds.exception.*","vds.expression.*");
+vds.import("vds.object.*", "vds.ds.*", "vds.exception.*","vds.expression.*","vds.widget.*");
 var main = function(dsName,columnName,separator,selectType,isNullFilter,isUnique) {
     if (vds.object.isUndefOrNull(dsName))
         throw new Error("实体名称不允许为空，请检查");
